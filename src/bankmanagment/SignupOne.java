@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.*;
 
-public class SignupOne extends JFrame {
+public class SignupOne extends JFrame implements ActionListener {
 
     JLabel formno, personalDetails, name, pinCode, state, city, email, marital, address, gender, dob, father;
     JTextField nameTextField, fnameTextField, emailTextField, addressTextField, cityTextField, stateTextField, pinTextField;
@@ -172,6 +173,53 @@ public class SignupOne extends JFrame {
         setTitle("NEW ACCOUNT APPLICATION FORM");
         setSize(350, 10);
         setVisible(true);
+
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+
+        String formno = "" + random;
+        String name = nameTextField.getText();
+        String fname = t2.getText();
+        String dob = ((JTextField) dateChooser.getDateEditor().getUiComponent()).getText();
+        String gender = null;
+        if (r1.isSelected()) {
+            gender = "Male";
+        } else if (r2.isSelected()) {
+            gender = "Female";
+        }
+
+        String email = t3.getText();
+        String marital = null;
+        if (r3.isSelected()) {
+            marital = "Married";
+        } else if (r4.isSelected()) {
+            marital = "Unmarried";
+        } else if (r5.isSelected()) {
+            marital = "Other";
+        }
+
+        String address = t4.getText();
+        String city = t5.getText();
+        String pincode = t6.getText();
+        String state = t7.getText();
+
+        try {
+
+            if (t6.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Fill all the required fields");
+            } else {
+                Conn c1 = new Conn();
+                String q1 = "insert into signup values('" + formno + "','" + name + "','" + fname + "','" + dob + "','" + gender + "','" + email + "','" + marital + "','" + address + "','" + city + "','" + pincode + "','" + state + "')";
+                c1.s.executeUpdate(q1);
+
+                new Signup2(first).setVisible(true);
+                setVisible(false);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
