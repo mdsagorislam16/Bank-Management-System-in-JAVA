@@ -180,40 +180,40 @@ public class SignupOne extends JFrame implements ActionListener {
 
         String formno = "" + random;
         String name = nameTextField.getText();
-        String fname = t2.getText();
+        String fname = fnameTextField.getText();
         String dob = ((JTextField) dateChooser.getDateEditor().getUiComponent()).getText();
         String gender = null;
-        if (r1.isSelected()) {
+        if (male.isSelected()) {
             gender = "Male";
-        } else if (r2.isSelected()) {
+        } else if (female.isSelected()) {
             gender = "Female";
         }
 
-        String email = t3.getText();
+        String email = emailTextField.getText();
         String marital = null;
-        if (r3.isSelected()) {
+        if (married.isSelected()) {
             marital = "Married";
-        } else if (r4.isSelected()) {
+        } else if (unmarried.isSelected()) {
             marital = "Unmarried";
-        } else if (r5.isSelected()) {
+        } else if (other.isSelected()) {
             marital = "Other";
         }
 
-        String address = t4.getText();
-        String city = t5.getText();
-        String pincode = t6.getText();
-        String state = t7.getText();
+        String address = addressTextField.getText();
+        String city = cityTextField.getText();
+        String pincode = pinTextField.getText();
+        String state = stateTextField.getText();
 
         try {
 
-            if (t6.getText().equals("")) {
+            if (name.equals("")) {
                 JOptionPane.showMessageDialog(null, "Fill all the required fields");
             } else {
-                Conn c1 = new Conn();
-                String q1 = "insert into signup values('" + formno + "','" + name + "','" + fname + "','" + dob + "','" + gender + "','" + email + "','" + marital + "','" + address + "','" + city + "','" + pincode + "','" + state + "')";
-                c1.s.executeUpdate(q1);
+                Conn c = new Conn();
+                String query = "insert into signup values('" + formno + "','" + name + "','" + fname + "','" + dob + "','" + gender + "','" + email + "','" + marital + "','" + address + "','" + city + "','" + pincode + "','" + state + "')";
+                c.s.executeUpdate(query);
 
-                new Signup2(first).setVisible(true);
+                new SignupTwo(formno).setVisible(true);
                 setVisible(false);
             }
 
