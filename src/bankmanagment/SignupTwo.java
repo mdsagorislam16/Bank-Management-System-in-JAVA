@@ -188,16 +188,7 @@ public class SignupTwo extends JFrame implements ActionListener {
         }
 
         try {
-            if (t2.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Fill all the required fields");
-            } else {
-                Conn c = new Conn();
-                String q1 = "insert into signup2 values('" + formno + "','" + sreligion + "','" + scategory + "','" + sincome + "','" + seducation + "','" + soccupation + "','" + span + "','" + sadhar + "','" + scitizen + "','" + saccount + "')";
-                c.s.executeUpdate(q1);
-
-                new Signup3(formno).setVisible(true);
-                setVisible(false);
-            }
+           
 
         } catch (Exception ex) {
             ex.printStackTrace();
