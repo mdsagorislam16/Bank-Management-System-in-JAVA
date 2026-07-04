@@ -177,8 +177,8 @@ public class SignupThree extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
 
         if (ae.getSource() == cancel) {
-            System.exit(0);
-            return;
+            setVisible(false);
+            new Login().setVisible(true);
         }
 
         if (ae.getSource() == submit) {
@@ -235,7 +235,7 @@ public class SignupThree extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Account created successfully!\nCard Number: " + cardno + "\nPin: " + pinno);
 
                 setVisible(false);
-                new Login(); // সাইন-আপ শেষে সরাসরি লগইন পেজে পাঠানো হচ্ছে
+                new Deposit(pinno).setVisible(true);
 
             } catch (Exception ex) {
                 ex.printStackTrace();
