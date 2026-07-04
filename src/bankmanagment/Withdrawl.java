@@ -13,7 +13,9 @@ public class Withdrawl extends JFrame implements ActionListener {
     Withdrawl(String pinnumber) {
         this.pinnumber = pinnumber;
         setLayout(null);
-       
+        // FIX: corrected resource path from "ASimulatorSystem/icons/atm.jpg" to "icons/atm.jpg"
+        // (the wrong path made getSystemResource() return null, which crashed the ImageIcon
+        // constructor with a NullPointerException before the window could ever show)
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
         Image i2 = i1.getImage().getScaledInstance(1000, 1180, Image.SCALE_DEFAULT);
         ImageIcon i3 = new ImageIcon(i2);
@@ -63,9 +65,8 @@ public class Withdrawl extends JFrame implements ActionListener {
                     ResultSet rs = c1.s.executeQuery("select * from bank where pin = '" + pinnumber + "'");
                     int balance = 0;
                     while (rs.next()) {
-                        // NOTE: your `bank` table has a column named "type", not "mode" —
-                        // if this still errors for you, change rs.getString("mode") to rs.getString("type")
-                        if (rs.getString("mode").equals("Deposit")) {
+                        // FIX: column name corrected from "mode" to "type" to match the CREATE TABLE statement
+                        if (rs.getString("type").equals("Deposit")) {
                             balance += Integer.parseInt(rs.getString("amount"));
                         } else {
                             balance -= Integer.parseInt(rs.getString("amount"));
