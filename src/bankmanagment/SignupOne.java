@@ -171,7 +171,8 @@ public class SignupOne extends JFrame implements ActionListener {
 
         getContentPane().setBackground(Color.WHITE);
         setTitle("NEW ACCOUNT APPLICATION FORM");
-        setSize(350, 10);
+        setSize(850,800);
+        setLocation(500,120);
         setVisible(true);
 
     }

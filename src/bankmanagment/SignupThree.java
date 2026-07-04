@@ -9,7 +9,7 @@ public class SignupThree extends JFrame implements ActionListener {
 
     JLabel l1, type, card, number, carddetail, l6, pin, pnumber, pindetail, services, l11, l12;
     JRadioButton r1, r2, r3, r4;
-    JButton b1, b2;
+    JButton submit, cancel;
     JCheckBox c1, c2, c3, c4, c5, c6, c7;
     String formno;
 
@@ -55,7 +55,7 @@ public class SignupThree extends JFrame implements ActionListener {
         groupaccount.add(r2);
         groupaccount.add(r3);
         groupaccount.add(r4);
-        
+
         setLayout(null);
 
         card = new JLabel("Card Number:");
@@ -150,24 +150,21 @@ public class SignupThree extends JFrame implements ActionListener {
         l12.setBounds(770, 10, 40, 30);
         add(l12);
 
-        b1 = new JButton("Submit");
-        b1.setFont(new Font("Raleway", Font.BOLD, 14));
-        b1.setBackground(Color.BLACK);
-        b1.setForeground(Color.WHITE);
-        b1.setBounds(250, 720, 100, 30);
-        add(b1);
+        submit = new JButton("Submit");
+        submit.setFont(new Font("Raleway", Font.BOLD, 14));
+        submit.setBackground(Color.BLACK);
+        submit.setForeground(Color.WHITE);
+        submit.setBounds(250, 720, 100, 30);
+        submit.addActionListener(this);
+        add(submit);
 
-        b2 = new JButton("Cancel");
-        b2.setFont(new Font("Raleway", Font.BOLD, 14));
-        b2.setBackground(Color.BLACK);
-        b2.setForeground(Color.WHITE);
-        b2.setBounds(420, 720, 100, 30);
-        add(b2);
-        
-        b1.addActionListener(this);
-        b2.addActionListener(this);
-
-        
+        cancel = new JButton("Cancel");
+        cancel.setFont(new Font("Raleway", Font.BOLD, 14));
+        cancel.setBackground(Color.BLACK);
+        cancel.setForeground(Color.WHITE);
+        cancel.setBounds(420, 720, 100, 30);
+        cancel.addActionListener(this);
+        add(cancel);
 
         getContentPane().setBackground(Color.WHITE);
 
@@ -175,28 +172,26 @@ public class SignupThree extends JFrame implements ActionListener {
         setLocation(500, 120);
         setVisible(true);
 
-        
-
     }
 
     public void actionPerformed(ActionEvent ae) {
-        String atype = null;
+        String accountType = null;
         if (r1.isSelected()) {
-            atype = "Saving Account";
+            accountType = "Saving Account";
         } else if (r2.isSelected()) {
-            atype = "Fixed Deposit Account";
+            accountType = "Fixed Deposit Account";
         } else if (r3.isSelected()) {
-            atype = "Current Account";
+            accountType = "Current Account";
         } else if (r4.isSelected()) {
-            atype = "Recurring Deposit Account";
+            accountType = "Recurring Deposit Account";
         }
 
         Random ran = new Random();
-        long first7 = (ran.nextLong() % 90000000L) + 5040936000000000L;
-        String cardno = "" + Math.abs(first7);
+        long cardnumber = (ran.nextLong() % 90000000L) + 5040936000000000L;
+        String cardno = "" + Math.abs(cardnumber);
 
-        long first3 = (ran.nextLong() % 9000L) + 1000L;
-        String pin = "" + Math.abs(first3);
+        long pinnumber = (ran.nextLong() % 9000L) + 1000L;
+        String pinno = "" + Math.abs(pinnumber);
 
         String facility = "";
         if (c1.isSelected()) {
@@ -219,23 +214,23 @@ public class SignupThree extends JFrame implements ActionListener {
         }
 
         try {
-            if (ae.getSource() == b1) {
+            if (ae.getSource() == submit) {
 
-                if (atype.equals("")) {
+                if (accountType.equals("")) {
                     JOptionPane.showMessageDialog(null, "Fill all the required fields");
                 } else {
-                    Conn c1 = new Conn();
-                    String q1 = "insert into signup3 values('" + formno + "','" + atype + "','" + cardno + "','" + pin + "','" + facility + "')";
-                    String q2 = "insert into login values('" + formno + "','" + cardno + "','" + pin + "')";
-                    c1.s.executeUpdate(q1);
-                    c1.s.executeUpdate(q2);
-                    JOptionPane.showMessageDialog(null, "Card Number: " + cardno + "\n Pin:" + pin);
+                    Conn conn = new Conn();
+                    String query1 = "insert into signupthree values('" + formno + "','" + accountType + "','" + cardno + "','" + pinno + "','" + facility + "')";
+                    String query2 = "insert into login values('" + formno + "','" + cardno + "','" + pinno + "')";
+                    conn.s.executeUpdate(query1);
+                    conn.s.executeUpdate(query2);
+                    JOptionPane.showMessageDialog(null, "Card Number: " + cardno + "\n Pin:" + pinno);
 
-                    new Deposit(pin).setVisible(true);
+                    new Deposit(pinno).setVisible(true);
                     setVisible(false);
                 }
 
-            } else if (ae.getSource() == b2) {
+            } else if (ae.getSource() == cancel) {
                 System.exit(0);
             }
 

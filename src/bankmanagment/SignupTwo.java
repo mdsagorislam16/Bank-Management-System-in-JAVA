@@ -11,7 +11,7 @@ public class SignupTwo extends JFrame implements ActionListener {
     JRadioButton syes, sno, eyes, eno;
     JButton next;
     JComboBox c1, c2, c3, c4, c5;
-     String formno;
+    String formno;
 
     SignupTwo(String formno) {
         setLayout(null);
@@ -151,6 +151,7 @@ public class SignupTwo extends JFrame implements ActionListener {
         next.setBackground(Color.BLACK);
         next.setForeground(Color.WHITE);
         next.setBounds(620, 660, 80, 30);
+
         add(next);
 
         next.addActionListener(this);
@@ -188,7 +189,16 @@ public class SignupTwo extends JFrame implements ActionListener {
         }
 
         try {
-           
+            if (adharTextField.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Fill all the required fields");
+            } else {
+                Conn conn = new Conn();
+                String q1 = "insert into signup2 values('" + formno + "','" + sreligion + "','" + scategory + "','" + sincome + "','" + seducation + "','" + soccupation + "','" + span + "','" + sadhar + "','" + scitizen + "','" + saccount + "')";
+                conn.s.executeUpdate(q1);
+
+                new SignupThree(formno).setVisible(true);
+                setVisible(false);
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -197,6 +207,6 @@ public class SignupTwo extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new SignupTwo("");
+        new SignupTwo("").setVisible(true);
     }
 }
