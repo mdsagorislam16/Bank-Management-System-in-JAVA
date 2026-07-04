@@ -1,6 +1,7 @@
 package bankmanagment;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.util.*;
 import com.toedter.calendar.JDateChooser;
@@ -18,101 +19,118 @@ public class SignupOne extends JFrame implements ActionListener {
     long random = Math.abs((ran.nextLong() % 9000L) + 1000L);
     String first = "" + Math.abs(random);
 
+    // থিম কালার (Login পেজের সাথে মিলিয়ে)
+    private final Color PRIMARY = new Color(25, 42, 86);
+    private final Color ACCENT  = new Color(0, 173, 181);
+    private final Color BG      = new Color(245, 247, 250);
+    private final Color LABEL_COLOR = new Color(60, 60, 60);
+
     SignupOne() {
 
+        setTitle("NEW ACCOUNT APPLICATION FORM");
+        setLayout(null);
+        setSize(850, 800);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(BG);
+
+        // ---- টপ হেডার ব্যান্ড ----
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBounds(0, 0, 850, 90);
+        headerPanel.setBackground(PRIMARY);
+        headerPanel.setLayout(null);
+        add(headerPanel);
+
         formno = new JLabel("APPLICATION FORM NO. " + first);
-        formno.setFont(new Font("Raleway", Font.BOLD, 38));
-        formno.setBounds(140, 20, 600, 40);
-        add(formno);
+        formno.setFont(new Font("SansSerif", Font.BOLD, 24));
+        formno.setForeground(Color.WHITE);
+        formno.setBounds(30, 15, 600, 30);
+        headerPanel.add(formno);
 
         personalDetails = new JLabel("Page 1: Personal Details");
-        personalDetails.setFont(new Font("Raleway", Font.BOLD, 22));
-        personalDetails.setBounds(290, 80, 600, 30);
-        add(personalDetails);
+        personalDetails.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        personalDetails.setForeground(new Color(200, 210, 230));
+        personalDetails.setBounds(30, 50, 600, 25);
+        headerPanel.add(personalDetails);
 
-        name = new JLabel("Name:");
-        name.setFont(new Font("Raleway", Font.BOLD, 20));
-        name.setBounds(100, 140, 100, 30);
+        // ---- ফর্ম ফিল্ডস ----
+        name = new JLabel("Name");
+        styleLabel(name);
+        name.setBounds(100, 130, 200, 25);
         add(name);
 
         nameTextField = new JTextField();
-        nameTextField.setFont(new Font("Raleway", Font.BOLD, 14));
-        nameTextField.setBounds(300, 140, 400, 30);
+        styleField(nameTextField);
+        nameTextField.setBounds(100, 155, 620, 36);
         add(nameTextField);
 
-        father = new JLabel("Father's Name:");
-        father.setFont(new Font("Raleway", Font.BOLD, 20));
-        father.setBounds(100, 190, 200, 30);
+        father = new JLabel("Father's Name");
+        styleLabel(father);
+        father.setBounds(100, 205, 200, 25);
         add(father);
 
         fnameTextField = new JTextField();
-        fnameTextField.setFont(new Font("Raleway", Font.BOLD, 14));
-        fnameTextField.setBounds(300, 190, 400, 30);
+        styleField(fnameTextField);
+        fnameTextField.setBounds(100, 230, 620, 36);
         add(fnameTextField);
 
-        dob = new JLabel("Date of Birth:");
-        dob.setFont(new Font("Raleway", Font.BOLD, 20));
-        dob.setBounds(100, 240, 200, 30);
+        dob = new JLabel("Date of Birth");
+        styleLabel(dob);
+        dob.setBounds(100, 280, 200, 25);
         add(dob);
 
         dateChooser = new JDateChooser();
-        //dateChooser.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        dateChooser.setForeground(new Color(105, 105, 105));
-        dateChooser.setBounds(300, 240, 400, 30);
+        dateChooser.setForeground(new Color(60, 60, 60));
+        dateChooser.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        dateChooser.setBounds(100, 305, 620, 36);
         add(dateChooser);
 
-        gender = new JLabel("Gender:");
-        gender.setFont(new Font("Raleway", Font.BOLD, 20));
-        gender.setBounds(100, 290, 200, 30);
+        gender = new JLabel("Gender");
+        styleLabel(gender);
+        gender.setBounds(100, 355, 200, 25);
         add(gender);
 
         male = new JRadioButton("Male");
-        male.setFont(new Font("Raleway", Font.BOLD, 14));
-        male.setBackground(Color.WHITE);
-        male.setBounds(300, 290, 60, 30);
+        styleRadio(male);
+        male.setBounds(100, 382, 90, 30);
         add(male);
 
         female = new JRadioButton("Female");
-        female.setFont(new Font("Raleway", Font.BOLD, 14));
-        female.setBackground(Color.WHITE);
-        female.setBounds(450, 290, 120, 30);
+        styleRadio(female);
+        female.setBounds(200, 382, 100, 30);
         add(female);
 
         ButtonGroup groupgender = new ButtonGroup();
         groupgender.add(male);
         groupgender.add(female);
 
-        email = new JLabel("Email Address:");
-        email.setFont(new Font("Raleway", Font.BOLD, 20));
-        email.setBounds(100, 340, 200, 30);
+        email = new JLabel("Email Address");
+        styleLabel(email);
+        email.setBounds(100, 425, 200, 25);
         add(email);
 
         emailTextField = new JTextField();
-        emailTextField.setFont(new Font("Raleway", Font.BOLD, 14));
-        emailTextField.setBounds(300, 340, 400, 30);
+        styleField(emailTextField);
+        emailTextField.setBounds(100, 450, 620, 36);
         add(emailTextField);
 
-        marital = new JLabel("Marital Status:");
-        marital.setFont(new Font("Raleway", Font.BOLD, 20));
-        marital.setBounds(100, 390, 200, 30);
+        marital = new JLabel("Marital Status");
+        styleLabel(marital);
+        marital.setBounds(100, 500, 200, 25);
         add(marital);
 
         married = new JRadioButton("Married");
-        married.setFont(new Font("Raleway", Font.BOLD, 14));
-        married.setBackground(Color.WHITE);
-        married.setBounds(300, 390, 100, 30);
+        styleRadio(married);
+        married.setBounds(100, 527, 100, 30);
         add(married);
 
         unmarried = new JRadioButton("Unmarried");
-        unmarried.setFont(new Font("Raleway", Font.BOLD, 14));
-        unmarried.setBackground(Color.WHITE);
-        unmarried.setBounds(450, 390, 100, 30);
+        styleRadio(unmarried);
+        unmarried.setBounds(210, 527, 120, 30);
         add(unmarried);
 
         other = new JRadioButton("Other");
-        other.setFont(new Font("Raleway", Font.BOLD, 14));
-        other.setBackground(Color.WHITE);
-        other.setBounds(635, 390, 100, 30);
+        styleRadio(other);
+        other.setBounds(340, 527, 100, 30);
         add(other);
 
         ButtonGroup groupstatus = new ButtonGroup();
@@ -120,61 +138,89 @@ public class SignupOne extends JFrame implements ActionListener {
         groupstatus.add(unmarried);
         groupstatus.add(other);
 
-        address = new JLabel("Address:");
-        address.setFont(new Font("Raleway", Font.BOLD, 20));
-        address.setBounds(100, 440, 200, 30);
+        address = new JLabel("Address");
+        styleLabel(address);
+        address.setBounds(100, 570, 200, 25);
         add(address);
 
         addressTextField = new JTextField();
-        addressTextField.setFont(new Font("Raleway", Font.BOLD, 14));
-        addressTextField.setBounds(300, 440, 400, 30);
+        styleField(addressTextField);
+        addressTextField.setBounds(100, 595, 620, 36);
         add(addressTextField);
 
-        city = new JLabel("City:");
-        city.setFont(new Font("Raleway", Font.BOLD, 20));
-        city.setBounds(100, 490, 200, 30);
+        city = new JLabel("City");
+        styleLabel(city);
+        city.setBounds(100, 645, 190, 25);
         add(city);
 
         cityTextField = new JTextField();
-        cityTextField.setFont(new Font("Raleway", Font.BOLD, 14));
-        cityTextField.setBounds(300, 490, 400, 30);
+        styleField(cityTextField);
+        cityTextField.setBounds(100, 670, 190, 36);
         add(cityTextField);
 
-        pinCode = new JLabel("Pin Code:");
-        pinCode.setFont(new Font("Raleway", Font.BOLD, 20));
-        pinCode.setBounds(100, 540, 200, 30);
+        pinCode = new JLabel("Pin Code");
+        styleLabel(pinCode);
+        pinCode.setBounds(320, 645, 190, 25);
         add(pinCode);
 
         pinTextField = new JTextField();
-        pinTextField.setFont(new Font("Raleway", Font.BOLD, 14));
-        pinTextField.setBounds(300, 540, 400, 30);
+        styleField(pinTextField);
+        pinTextField.setBounds(320, 670, 190, 36);
         add(pinTextField);
 
-        state = new JLabel("State:");
-        state.setFont(new Font("Raleway", Font.BOLD, 20));
-        state.setBounds(100, 590, 200, 30);
+        state = new JLabel("State");
+        styleLabel(state);
+        state.setBounds(540, 645, 180, 25);
         add(state);
 
         stateTextField = new JTextField();
-        stateTextField.setFont(new Font("Raleway", Font.BOLD, 14));
-        stateTextField.setBounds(300, 590, 400, 30);
+        styleField(stateTextField);
+        stateTextField.setBounds(540, 670, 180, 36);
         add(stateTextField);
 
-        next = new JButton("Next");
-        next.setFont(new Font("Raleway", Font.BOLD, 14));
-        next.setBackground(Color.BLACK);
+        next = new JButton("NEXT →");
+        next.setFont(new Font("SansSerif", Font.BOLD, 14));
+        next.setBackground(ACCENT);
         next.setForeground(Color.WHITE);
-        next.setBounds(620, 660, 80, 30);
+        next.setFocusPainted(false);
+        next.setBorderPainted(false);
+        next.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        next.setBounds(540, 725, 180, 42);
+        next.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                next.setBackground(ACCENT.darker());
+            }
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                next.setBackground(ACCENT);
+            }
+        });
         add(next);
 
         next.addActionListener(this);
 
-        getContentPane().setBackground(Color.WHITE);
-        setTitle("NEW ACCOUNT APPLICATION FORM");
-        setSize(850,800);
-        setLocation(500,120);
         setVisible(true);
 
+    }
+
+    private void styleLabel(JLabel label) {
+        label.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        label.setForeground(LABEL_COLOR);
+    }
+
+    private void styleField(JTextField field) {
+        field.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        field.setBackground(Color.WHITE);
+        field.setBorder(BorderFactory.createCompoundBorder(
+                new MatteBorder(0, 0, 2, 0, ACCENT),
+                BorderFactory.createEmptyBorder(6, 8, 6, 8)));
+    }
+
+    private void styleRadio(JRadioButton radio) {
+        radio.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        radio.setBackground(BG);
+        radio.setForeground(LABEL_COLOR);
+        radio.setFocusPainted(false);
+        radio.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     public void actionPerformed(ActionEvent ae) {

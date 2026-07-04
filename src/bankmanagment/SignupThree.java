@@ -175,73 +175,78 @@ public class SignupThree extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        String accountType = null;
-        if (r1.isSelected()) {
-            accountType = "Saving Account";
-        } else if (r2.isSelected()) {
-            accountType = "Fixed Deposit Account";
-        } else if (r3.isSelected()) {
-            accountType = "Current Account";
-        } else if (r4.isSelected()) {
-            accountType = "Recurring Deposit Account";
+
+        if (ae.getSource() == cancel) {
+            System.exit(0);
+            return;
         }
 
-        Random ran = new Random();
-        long cardnumber = (ran.nextLong() % 90000000L) + 5040936000000000L;
-        String cardno = "" + Math.abs(cardnumber);
+        if (ae.getSource() == submit) {
 
-        long pinnumber = (ran.nextLong() % 9000L) + 1000L;
-        String pinno = "" + Math.abs(pinnumber);
-
-        String facility = "";
-        if (c1.isSelected()) {
-            facility = facility + " ATM Card";
-        }
-        if (c2.isSelected()) {
-            facility = facility + " Internet Banking";
-        }
-        if (c3.isSelected()) {
-            facility = facility + " Mobile Banking";
-        }
-        if (c4.isSelected()) {
-            facility = facility + " EMAIL Alerts";
-        }
-        if (c5.isSelected()) {
-            facility = facility + " Cheque Book";
-        }
-        if (c6.isSelected()) {
-            facility = facility + " E-Statement";
-        }
-
-        try {
-            if (ae.getSource() == submit) {
-
-                if (accountType.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Fill all the required fields");
-                } else {
-                    Conn conn = new Conn();
-                    String query1 = "insert into signupthree values('" + formno + "','" + accountType + "','" + cardno + "','" + pinno + "','" + facility + "')";
-                    String query2 = "insert into login values('" + formno + "','" + cardno + "','" + pinno + "')";
-                    conn.s.executeUpdate(query1);
-                    conn.s.executeUpdate(query2);
-                    JOptionPane.showMessageDialog(null, "Card Number: " + cardno + "\n Pin:" + pinno);
-
-                    new Deposit(pinno).setVisible(true);
-                    setVisible(false);
-                }
-
-            } else if (ae.getSource() == cancel) {
-                System.exit(0);
+            // ---- ফিক্স: প্রথমে null চেক করা হচ্ছে ----
+            String accountType = null;
+            if (r1.isSelected()) {
+                accountType = "Saving Account";
+            } else if (r2.isSelected()) {
+                accountType = "Fixed Deposit Account";
+            } else if (r3.isSelected()) {
+                accountType = "Current Account";
+            } else if (r4.isSelected()) {
+                accountType = "Recurring Deposit Account";
             }
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            if (accountType == null) {
+                JOptionPane.showMessageDialog(null, "Please select an Account Type",
+                        "Missing Info", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
+            if (!c7.isSelected()) {
+                JOptionPane.showMessageDialog(null, "You must accept the declaration to continue",
+                        "Declaration Required", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Random ran = new Random();
+            long cardnumber = Math.abs((ran.nextLong() % 9000000000000000L)) + 1000000000000000L;
+            String cardno = "" + cardnumber;
+            if (cardno.length() > 16) {
+                cardno = cardno.substring(0, 16);
+            }
+
+            long pinnumber = Math.abs((ran.nextLong() % 9000L)) + 1000L;
+            String pinno = "" + pinnumber;
+
+            String facility = "";
+            if (c1.isSelected()) facility += " ATM Card";
+            if (c2.isSelected()) facility += " Internet Banking";
+            if (c3.isSelected()) facility += " Mobile Banking";
+            if (c4.isSelected()) facility += " EMAIL Alerts";
+            if (c5.isSelected()) facility += " Cheque Book";
+            if (c6.isSelected()) facility += " E-Statement";
+
+            try {
+                Conn conn = new Conn();
+                String query1 = "insert into signupthree values('" + formno + "','" + accountType + "','" + cardno + "','" + pinno + "','" + facility + "')";
+                String query2 = "insert into login values('" + formno + "','" + cardno + "','" + pinno + "')";
+                conn.s.executeUpdate(query1);
+                conn.s.executeUpdate(query2);
+
+                JOptionPane.showMessageDialog(null, "Account created successfully!\nCard Number: " + cardno + "\nPin: " + pinno);
+
+                setVisible(false);
+                new Login(); // সাইন-আপ শেষে সরাসরি লগইন পেজে পাঠানো হচ্ছে
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "Database Error: " + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     public static void main(String[] args) {
         new SignupThree("").setVisible(true);
     }
-
 }

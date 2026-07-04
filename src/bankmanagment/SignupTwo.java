@@ -28,7 +28,7 @@ public class SignupTwo extends JFrame implements ActionListener {
         religion.setBounds(100, 140, 100, 30);
         add(religion);
 
-        String valReligion[] = {"Hindu", "Muslim", "Sikh", "Christian", "Other"};
+        String valReligion[] = {"Other", "Hindu", "Muslim", "Sikh", "Christian"};
         c1 = new JComboBox(valReligion);
         c1.setBackground(Color.WHITE);
         c1.setFont(new Font("Raleway", Font.BOLD, 14));
@@ -112,13 +112,13 @@ public class SignupTwo extends JFrame implements ActionListener {
         syes = new JRadioButton("YES");
         syes.setFont(new Font("Raleway", Font.BOLD, 14));
         syes.setBackground(Color.WHITE);
-        syes.setBounds(300, 390, 100, 30);
+        syes.setBounds(300, 540, 100, 30);
         add(syes);
 
         sno = new JRadioButton("NO");
         sno.setFont(new Font("Raleway", Font.BOLD, 14));
         sno.setBackground(Color.WHITE);
-        sno.setBounds(450, 390, 100, 30);
+        sno.setBounds(450, 540, 100, 30);
         add(sno);
 
         ButtonGroup groupstatus = new ButtonGroup();
@@ -133,13 +133,13 @@ public class SignupTwo extends JFrame implements ActionListener {
         eyes = new JRadioButton("YES");
         eyes.setFont(new Font("Raleway", Font.BOLD, 14));
         eyes.setBackground(Color.WHITE);
-        eyes.setBounds(300, 390, 100, 30);
+        eyes.setBounds(300, 590, 100, 30);
         add(eyes);
 
         eno = new JRadioButton("NO");
         eno.setFont(new Font("Raleway", Font.BOLD, 14));
         eno.setBackground(Color.WHITE);
-        eno.setBounds(450, 390, 100, 30);
+        eno.setBounds(450, 590, 100, 30);
         add(eno);
 
         ButtonGroup egroupstatus = new ButtonGroup();
@@ -158,7 +158,7 @@ public class SignupTwo extends JFrame implements ActionListener {
 
         getContentPane().setBackground(Color.WHITE);
         setTitle("NEW ACCOUNT APPLICATION FORM");
-        setSize(350, 10);
+        setSize(850, 750);
         setVisible(true);
 
     }
@@ -171,8 +171,8 @@ public class SignupTwo extends JFrame implements ActionListener {
         String seducation = (String) c4.getSelectedItem();
         String soccupation = (String) c5.getSelectedItem();
 
-        String span = panTextField.getText();
-        String sadhar = adharTextField.getText();
+        String span = panTextField.getText().trim();
+        String sadhar = adharTextField.getText().trim();
 
         String scitizen = "";
         if (syes.isSelected()) {
@@ -188,20 +188,28 @@ public class SignupTwo extends JFrame implements ActionListener {
             saccount = "No";
         }
 
-        try {
-            if (adharTextField.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Fill all the required fields");
-            } else {
-                Conn conn = new Conn();
-                String q1 = "insert into signup2 values('" + formno + "','" + sreligion + "','" + scategory + "','" + sincome + "','" + seducation + "','" + soccupation + "','" + span + "','" + sadhar + "','" + scitizen + "','" + saccount + "')";
-                conn.s.executeUpdate(q1);
+        // ---- সব required field validation ----
+        if (span.equals("") || sadhar.equals("") || scitizen.equals("") || saccount.equals("")) {
+            JOptionPane.showMessageDialog(null,
+                    "Fill all the required fields (PAN, Aadhar, Senior Citizen, Existing Account)",
+                    "Missing Info", JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
 
-                new SignupThree(formno).setVisible(true);
-                setVisible(false);
-            }
+        try {
+            Conn conn = new Conn();
+            // FIX: table name corrected from "signup2" to "signuptwo" to match the CREATE TABLE statement
+            String q1 = "insert into signuptwo values('" + formno + "','" + sreligion + "','" + scategory + "','" + sincome + "','" + seducation + "','" + soccupation + "','" + span + "','" + sadhar + "','" + scitizen + "','" + saccount + "')";
+            conn.s.executeUpdate(q1);
+
+            new SignupThree(formno).setVisible(true);
+            setVisible(false);
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Database Error: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }
