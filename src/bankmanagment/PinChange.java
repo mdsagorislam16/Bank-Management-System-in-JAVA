@@ -1,58 +1,128 @@
 package bankmanagment;
+
+import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 
 public class PinChange extends JFrame implements ActionListener {
     JPasswordField pin, repin;
     JButton change, back;
-    JLabel text, pintext, repintext;
     String pinnumber;
+
+    // থিম কালার (Login পেজের সাথে মিল রেখে)
+    private final Color PRIMARY = new Color(25, 42, 86);
+    private final Color ACCENT  = new Color(0, 173, 181);
+    private final Color BG      = new Color(245, 247, 250);
+
     PinChange(String pinnumber) {
         this.pinnumber = pinnumber;
+        setTitle("Change PIN");
         setLayout(null);
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/atm.jpg"));
-        Image i2 = i1.getImage().getScaledInstance(1000, 1180, Image.SCALE_DEFAULT);
-        ImageIcon i3 = new ImageIcon(i2);
-        JLabel image = new JLabel(i3);
-        image.setBounds(0, 0, 960, 1080);
-        add(image);
-        text = new JLabel("CHANGE YOUR PIN");
-        text.setFont(new Font("System", Font.BOLD, 16));
-        text.setForeground(Color.WHITE);
-        text.setBounds(280, 330, 800, 35);
-        image.add(text);
-        pintext = new JLabel("New PIN:");
-        pintext.setFont(new Font("System", Font.BOLD, 16));
-        pintext.setForeground(Color.WHITE);
-        pintext.setBounds(180, 390, 150, 35);
-        image.add(pintext);
+        setSize(800, 480);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(BG);
+
+        // ---------- LEFT SIDE PANEL ----------
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBounds(0, 0, 300, 480);
+        sidePanel.setBackground(PRIMARY);
+        sidePanel.setLayout(null);
+        add(sidePanel);
+
+        try {
+            ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/logo.jpg"));
+            Image i2 = i1.getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+            ImageIcon i3 = new ImageIcon(i2);
+            JLabel logoLabel = new JLabel(i3);
+            logoLabel.setBounds(105, 60, 90, 90);
+            sidePanel.add(logoLabel);
+        } catch (Exception e) {
+            // লোগো না থাকলেও ক্র্যাশ করবে না
+        }
+
+        JLabel sideText = new JLabel("<html><center>SECURE YOUR<br>ACCOUNT</center></html>");
+        sideText.setFont(new Font("SansSerif", Font.BOLD, 24));
+        sideText.setForeground(Color.WHITE);
+        sideText.setHorizontalAlignment(SwingConstants.CENTER);
+        sideText.setBounds(20, 170, 260, 80);
+        sidePanel.add(sideText);
+
+        JLabel tagline = new JLabel("<html><center>Choose a PIN only you know.</center></html>");
+        tagline.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        tagline.setForeground(new Color(200, 210, 230));
+        tagline.setHorizontalAlignment(SwingConstants.CENTER);
+        tagline.setBounds(20, 250, 260, 30);
+        sidePanel.add(tagline);
+
+        // ---------- RIGHT SIDE FORM ----------
+        JLabel formTitle = new JLabel("Change PIN");
+        formTitle.setFont(new Font("SansSerif", Font.BOLD, 30));
+        formTitle.setForeground(PRIMARY);
+        formTitle.setBounds(350, 55, 300, 40);
+        add(formTitle);
+
+        JLabel subtitle = new JLabel("Enter your new 4-digit PIN below");
+        subtitle.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        subtitle.setForeground(Color.GRAY);
+        subtitle.setBounds(350, 95, 350, 20);
+        add(subtitle);
+
+        JLabel pinLabel = new JLabel("New PIN");
+        pinLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        pinLabel.setForeground(Color.GRAY);
+        pinLabel.setBounds(350, 140, 300, 20);
+        add(pinLabel);
+
         pin = new JPasswordField();
-        pin.setFont(new Font("Raleway", Font.BOLD, 25));
-        pin.setBounds(350, 390, 180, 25);
-        image.add(pin);
-        repintext = new JLabel("Re-Enter New PIN:");
-        repintext.setFont(new Font("System", Font.BOLD, 16));
-        repintext.setForeground(Color.WHITE);
-        repintext.setBounds(180, 440, 200, 35);
-        image.add(repintext);
+        pin.setFont(new Font("Arial", Font.PLAIN, 18));
+        pin.setBounds(350, 163, 350, 38);
+        pin.setBorder(BorderFactory.createCompoundBorder(
+                new MatteBorder(0, 0, 2, 0, ACCENT),
+                BorderFactory.createEmptyBorder(6, 8, 6, 8)));
+        pin.setBackground(BG);
+        add(pin);
+
+        JLabel repinLabel = new JLabel("Re-Enter New PIN");
+        repinLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        repinLabel.setForeground(Color.GRAY);
+        repinLabel.setBounds(350, 218, 300, 20);
+        add(repinLabel);
+
         repin = new JPasswordField();
-        repin.setFont(new Font("Raleway", Font.BOLD, 25));
-        repin.setBounds(350, 440, 180, 25);
-        image.add(repin);
-        change = new JButton("CHANGE");
-        change.setBounds(390, 588, 150, 35);
-        image.add(change);
-        back = new JButton("BACK");
-        back.setBounds(390, 633, 150, 35);
-        image.add(back);
+        repin.setFont(new Font("Arial", Font.PLAIN, 18));
+        repin.setBounds(350, 241, 350, 38);
+        repin.setBorder(BorderFactory.createCompoundBorder(
+                new MatteBorder(0, 0, 2, 0, ACCENT),
+                BorderFactory.createEmptyBorder(6, 8, 6, 8)));
+        repin.setBackground(BG);
+        add(repin);
+
+        change = new JButton("CHANGE PIN");
+        change.setBounds(350, 313, 165, 42);
+        change.setBackground(ACCENT);
+        change.setForeground(Color.WHITE);
+        change.setFont(new Font("SansSerif", Font.BOLD, 14));
+        change.setFocusPainted(false);
+        change.setBorderPainted(false);
+        change.setCursor(new Cursor(Cursor.HAND_CURSOR));
         change.addActionListener(this);
+        add(change);
+
+        back = new JButton("BACK");
+        back.setBounds(535, 313, 165, 42);
+        back.setBackground(new Color(230, 230, 230));
+        back.setForeground(Color.DARK_GRAY);
+        back.setFont(new Font("SansSerif", Font.BOLD, 14));
+        back.setFocusPainted(false);
+        back.setBorderPainted(false);
+        back.setCursor(new Cursor(Cursor.HAND_CURSOR));
         back.addActionListener(this);
-        setSize(960, 1080);
-        setLocation(500, 0);
-        setUndecorated(true);
+        add(back);
+
         setVisible(true);
     }
+
     public void actionPerformed(ActionEvent ae) {
         try {
             if (ae.getSource() == back) {
@@ -62,12 +132,9 @@ public class PinChange extends JFrame implements ActionListener {
             }
 
             if (ae.getSource() == change) {
-                // FIX: use getPassword() (char[]) instead of the deprecated getText() on JPasswordField
                 String npin = new String(pin.getPassword());
                 String rpin = new String(repin.getPassword());
 
-                // FIX: check for empty fields FIRST, and return immediately so the
-                // update queries never run with blank data
                 if (npin.equals("")) {
                     JOptionPane.showMessageDialog(null, "Enter New PIN");
                     return;
@@ -76,8 +143,6 @@ public class PinChange extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Re-Enter new PIN");
                     return;
                 }
-                // FIX: match-check moved after the empty-check, so two blank fields
-                // can no longer sneak through as a "match"
                 if (!npin.equals(rpin)) {
                     JOptionPane.showMessageDialog(null, "Entered PIN does not match");
                     return;
@@ -86,7 +151,6 @@ public class PinChange extends JFrame implements ActionListener {
                 Conn c1 = new Conn();
                 String q1 = "update bank set pin = '" + rpin + "' where pin = '" + pinnumber + "' ";
                 String q2 = "update login set pin = '" + rpin + "' where pin = '" + pinnumber + "' ";
-                // FIX: table name corrected from "signup3" to "signupthree" to match the CREATE TABLE statement
                 String q3 = "update signupthree set pin = '" + rpin + "' where pin = '" + pinnumber + "' ";
                 c1.s.executeUpdate(q1);
                 c1.s.executeUpdate(q2);
@@ -97,10 +161,10 @@ public class PinChange extends JFrame implements ActionListener {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // FIX: surface the real error instead of failing silently
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     public static void main(String[] args) {
         new PinChange("").setVisible(true);
     }
